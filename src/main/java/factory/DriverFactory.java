@@ -12,14 +12,16 @@ public class DriverFactory {
         playwright = Playwright.create();
         switch(browserName.toLowerCase()){
             case "chrome":
-                browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-
+                browser = openChrome();
                 break;
             case "firefox":
-                browser = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));
+                browser =openFirefox();
+                break;
+            case "edge":
+                browser = openEdge();
                 break;
             default:
-                System.out.println("Please pass correct browser name");
+                browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
                 break;
         }
 
@@ -28,9 +30,26 @@ public class DriverFactory {
 
     }
 
+    private static Browser openChrome(){
+        return browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+    }
+
+    private static Browser openFirefox(){
+        return browser = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));
+    }
+
+    private static Browser openEdge(){
+        return playwright.chromium().launch(new BrowserType.LaunchOptions().setChannel("msedge")
+                        .setHeadless(false));
+    }
+
+
     public static Page getPage(){
         return page;
     }
+
+
+
 
     public static void closeBrowser(){
         playwright.close();

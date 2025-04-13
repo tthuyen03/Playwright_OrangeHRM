@@ -19,6 +19,7 @@ public class AddAdminTest {
     private DashboardPage dashboard;
     private AdminPage adminPage;
     private AddAdminPage addAdminPage;
+
     private String browser = "chrome";
 
     @BeforeMethod
@@ -29,6 +30,7 @@ public class AddAdminTest {
         dashboard = new DashboardPage(page);
         adminPage = new AdminPage(page);
         addAdminPage = new AddAdminPage(page);
+
         adminPage.navigateToPage();
 
     }
@@ -39,22 +41,22 @@ public class AddAdminTest {
     }
 
     @Test(description = "Verify user is created successfully when input valid fields")
-    public void createUserSuccess(){
-        String username = "Admin";
-        String password = "admin123";
-        String employeeName = "Qwerty LName";
-        String newUsername = "LName123";
-        String newPasswordUser = "Lname123.";
-        String newConfirmPasswordUser = "Lname123.";
-        login.login(username,password);
+    public void createUserSuccess() throws InterruptedException {
+        login.login("Admin", "admin123");
         page.waitForLoadState(LoadState.NETWORKIDLE);
-        assertTrue(dashboard.isDashboardVisible(), "Dashboard should be visible after successful login");
-        dashboard.navigateToAdminPage();
-        adminPage.clickAdd();
-        addAdminPage.addUser(employeeName,newUsername,newPasswordUser,newConfirmPasswordUser);
-        page.waitForLoadState(LoadState.NETWORKIDLE);
-        assertTrue(adminPage.verifyCreateUserSuccess(newUsername), "User is NOT EXIST");
+        Thread.sleep(2000);
 
+        assertTrue(dashboard.isDashboardVisible(), "Dashboard should be visible after successful login");
+
+        adminPage.getLinkInNav("Admin").click();
+        adminPage.clickAdd();
+        addAdminPage.addUser("ESS", "Qwerty LName", "Enabled", "LName123", "Lname123.", "Lname123.");
+
+        page.waitForLoadState(LoadState.NETWORKIDLE);
+        Thread.sleep(2000);
+
+        assertTrue(adminPage.verifyCreateUserSuccess("LName123"), "User is NOT EXIST");
     }
+
 
 }

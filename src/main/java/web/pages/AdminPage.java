@@ -3,7 +3,6 @@ package web.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
-import web.common.NavigationBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,7 @@ public class AdminPage extends BasePage{
     private Locator btnAdd = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName(" Add "));
     private Locator adminTable = page.locator("//div[@class='oxd-table' and @role='table']");
     private Locator userValues = adminTable.locator("div.oxd-table-body div.oxd-table-card > div > div:nth-child(2)");
+    private Locator btnDeleteUser = page.locator("");
 
     public AdminPage(Page page){
         super(page);

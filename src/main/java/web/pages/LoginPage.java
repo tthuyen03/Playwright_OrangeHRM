@@ -23,9 +23,11 @@ public class LoginPage extends BasePage{
         buttonLogin.click();
     }
 
+
     public boolean isInvalidCredentialsVisible(){
         return textMessage.isVisible();
     }
+
 
     public boolean isRequiredVisible(){
         return textRequired.isVisible();

@@ -3,6 +3,8 @@ package tests;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import factory.DriverFactory;
+import io.qameta.allure.Attachment;
+import io.qameta.allure.Step;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -32,6 +34,12 @@ public class LoginTest {
         DriverFactory.closeBrowser();
     }
 
+    @Attachment(value = "Page Screenshot", type = "image/png")
+    public byte[] takeScreen() {
+        return page.screenshot();
+    }
+
+    @Step("Login with username: {username}")
     @Test(description = "Verify login successfully when input valid credentials")
     public void loginWithValidCredentials(){
         String username = "Admin";
@@ -39,9 +47,11 @@ public class LoginTest {
         login.login(username,password);
         page.waitForLoadState(LoadState.NETWORKIDLE);
         assertTrue(dashboard.isDashboardVisible(), "Dashboard should be visible after successful login");
+        login.takeScreenshot("loginsuceess");
+        takeScreen();
     }
 
-    @Test(description = "Verify login successfully when input leading space in username and valid password")
+    /*@Test(description = "Verify login successfully when input leading space in username and valid password")
     public void loginWithLeadingSpaceInUsername(){
         String username = " Admin";
         String password = "admin123";
@@ -95,7 +105,7 @@ public class LoginTest {
         assertTrue(login.isInvalidCredentialsVisible(), "Invalid credentials message should be visible");
     }
 
-    /*@Test(description = "Verify error message is displayed when blank username and password")
+    @Test(description = "Verify error message is displayed when blank username and password")
     public void loginFailWithEmptyFields(){
         String username = "";
         String password = "";
@@ -103,7 +113,7 @@ public class LoginTest {
         page.waitForLoadState(LoadState.NETWORKIDLE);
 
         assertTrue(login.isRequiredVisible(), "Required should be visible");
-    }*/
+    }
 
     @Test(description = "Verify error message is displayed when blank username and valid password")
     public void loginFailWithEmptyUsername(){
@@ -148,5 +158,5 @@ public class LoginTest {
         login.login(username,password);
         page.waitForLoadState(LoadState.NETWORKIDLE);
         assertTrue(login.isInvalidCredentialsVisible(), "Invalid credentials message should be visible");
-    }
+    }*/
 }

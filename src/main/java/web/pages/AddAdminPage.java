@@ -10,25 +10,30 @@ public class AddAdminPage extends BasePage{
         super(page);
     }
 
-    private Locator selectUserRole = page.locator("//label[contains(text(), 'User Role')]/following::div[contains(@class, 'oxd-select-text--focus')]");
-    private Locator inputUserRoleValue = page.locator("//div[@role='listbox']//span[text()='ESS']");
-    private Locator inputEmployeeName = page.getByLabel("Employee Name");
-    private Locator selectStatus = page.locator("//label[contains(text(), 'Status')]/following::div[contains(@class, 'oxd-select-text--focus')]");
-    private Locator inputStatusValue = page.locator("//div[@role='listbox']//span[text()='Enabled']");
-    private Locator inputUsername = page.getByLabel("Username");
-    private Locator inputPassword = page.getByLabel("Password");
-    private Locator inputConfirmPassword = page.getByLabel("Confirm Password");
-    private Locator btnSubmit = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Submit"));
+    private final Locator selectUserRole = page.locator("div.oxd-select-wrapper:below(label:has-text('User Role'))").first();
+    private final Locator selectStatus = page.locator("div.oxd-select-wrapper:below(label:has-text('Status'))").first();
+    private final Locator inputEmployeeName = page.getByPlaceholder("Type for hints...");
+
+    private final Locator inputUsername = page.locator("input[autocomplete='off']:below(label:has-text('Username'))").first();
+    private final Locator inputPassword = page.locator("input[type='password']:below(label:has-text('Password'))").first();
+    private final Locator inputConfirmPassword = page.locator("input[type='password']:below(label:has-text('Confirm Password'))").first();
+    private final Locator btnSubmit = page.locator("button:has-text('Save')");
 
 
-
-
-    public void addUser(String employeeName, String username, String password, String confirmPassword ){
+    public void getValueUserRole(String role){
         selectUserRole.click();
-        inputUserRoleValue.click();
-        inputEmployeeName.fill(employeeName);
+        page.locator("//div[@role='listbox']//span[text()='"+role+"']").click();
+    }
+
+    public void getValueStatus(String status){
         selectStatus.click();
-        inputStatusValue.click();
+        page.locator("//div[@role='listbox']//span[text()='"+status+"']");
+    }
+
+    public void addUser(String role, String employeeName, String status, String username, String password, String confirmPassword ){
+        getValueUserRole(role);
+        inputEmployeeName.fill(employeeName);
+        getValueStatus(status);
         inputUsername.fill(username);
         inputPassword.fill(password);
         inputConfirmPassword.fill(confirmPassword);
