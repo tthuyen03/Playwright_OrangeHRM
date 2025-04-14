@@ -55,7 +55,7 @@ public class AddAdminTest {
         page.waitForLoadState(LoadState.NETWORKIDLE);
         Thread.sleep(2000);
 
-        assertTrue(adminPage.verifyCreateUserSuccess("LName123"), "User is NOT EXIST");
+        assertTrue(adminPage.verifyCreateUserSuccess("User name","LName123"), "User is NOT EXIST");
     }
 
 
